@@ -1,4 +1,4 @@
-#define GLFW_INCLUDE_VULKAN
+п»ї#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 #include <iostream>
@@ -32,7 +32,7 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
-//для створення об’єкта VkDebugUtilsMessengerEXT.
+//РґР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ РѕР±вЂ™С”РєС‚Р° VkDebugUtilsMessengerEXT
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
     auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
     if (func != nullptr) {
@@ -43,7 +43,7 @@ VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMes
     }
 }
 
-//щоб очистити VkDebugUtilsMessengerEXT
+//С‰РѕР± РѕС‡РёСЃС‚РёС‚Рё VkDebugUtilsMessengerEXT
 void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
     auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
     if (func != nullptr) {
@@ -51,7 +51,7 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT
     }
 }
 
-struct QueueFamilyIndices { // Для пошуку ще однієї черги краще об’єднати індекси в структуру
+struct QueueFamilyIndices { // Р”Р»СЏ РїРѕС€СѓРєСѓ С‰Рµ РѕРґРЅС–С”С— С‡РµСЂРіРё РєСЂР°С‰Рµ РѕР±вЂ™С”РґРЅР°С‚Рё С–РЅРґРµРєСЃРё РІ СЃС‚СЂСѓРєС‚СѓСЂСѓ
     std::optional<uint32_t> graphicsFamily;
     std::optional<uint32_t> presentFamily;
 
@@ -60,7 +60,7 @@ struct QueueFamilyIndices { // Для пошуку ще однієї черги краще об’єднати індекс
     }
 };
 
-struct SwapChainSupportDetails { //будемо використовувати структуру, щоб передавати деталі, коли вони будуть запитані.
+struct SwapChainSupportDetails { //Р±СѓРґРµРјРѕ РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё СЃС‚СЂСѓРєС‚СѓСЂСѓ, С‰РѕР± РїРµСЂРµРґР°РІР°С‚Рё РґРµС‚Р°Р»С–, РєРѕР»Рё РІРѕРЅРё Р±СѓРґСѓС‚СЊ Р·Р°РїРёС‚Р°РЅС–.
     VkSurfaceCapabilitiesKHR capabilities;
     std::vector<VkSurfaceFormatKHR> formats;
     std::vector<VkPresentModeKHR> presentModes;
@@ -68,12 +68,12 @@ struct SwapChainSupportDetails { //будемо використовувати структуру, щоб передав
 
 class HelloTriangleApplication {
 public:
-    //запускаємо нашу програму
+    //Р·Р°РїСѓСЃРєР°С”РјРѕ РЅР°С€Сѓ РїСЂРѕРіСЂР°РјСѓ
     void run() {
-        initWindow();   //Використаємо цю функцію для ініціалізації GLFW і створення вікна.
-        initVulkan();   //додаються функції для ініціювання кожного об’єкту Vulkan
-        mainLoop();     //цикл,який повторюється до тих пір, поки вікно не буде закрито.
-        cleanup();      //Після того, як вікно закрито, потрібно очистити ресурси, знищивши його та припинивши роботу GLFW.
+        initWindow();   //Р’РёРєРѕСЂРёСЃС‚Р°С”РјРѕ С†СЋ С„СѓРЅРєС†С–СЋ РґР»СЏ С–РЅС–С†С–Р°Р»С–Р·Р°С†С–С— GLFW С– СЃС‚РІРѕСЂРµРЅРЅСЏ РІС–РєРЅР°.
+        initVulkan();   //РґРѕРґР°СЋС‚СЊСЃСЏ С„СѓРЅРєС†С–С— РґР»СЏ С–РЅС–С†С–СЋРІР°РЅРЅСЏ РєРѕР¶РЅРѕРіРѕ РѕР±вЂ™С”РєС‚Сѓ Vulkan
+        mainLoop();     //С†РёРєР»,СЏРєРёР№ РїРѕРІС‚РѕСЂСЋС”С‚СЊСЃСЏ РґРѕ С‚РёС… РїС–СЂ, РїРѕРєРё РІС–РєРЅРѕ РЅРµ Р±СѓРґРµ Р·Р°РєСЂРёС‚Рѕ.
+        cleanup();      //РџС–СЃР»СЏ С‚РѕРіРѕ, СЏРє РІС–РєРЅРѕ Р·Р°РєСЂРёС‚Рѕ, РїРѕС‚СЂС–Р±РЅРѕ РѕС‡РёСЃС‚РёС‚Рё СЂРµСЃСѓСЂСЃРё, Р·РЅРёС‰РёРІС€Рё Р№РѕРіРѕ С‚Р° РїСЂРёРїРёРЅРёРІС€Рё СЂРѕР±РѕС‚Сѓ GLFW.
     }
 
 private:
@@ -110,15 +110,15 @@ private:
 
     bool framebufferResized = false;
 
-    //Використаємо цю функцію для ініціалізації GLFW і створення вікна.
+    //Р’РёРєРѕСЂРёСЃС‚Р°С”РјРѕ С†СЋ С„СѓРЅРєС†С–СЋ РґР»СЏ С–РЅС–С†С–Р°Р»С–Р·Р°С†С–С— GLFW С– СЃС‚РІРѕСЂРµРЅРЅСЏ РІС–РєРЅР°.
     void initWindow() {
-        glfwInit(); //ініціалізує бібліотеку GLFW.
+        glfwInit(); //С–РЅС–С†С–Р°Р»С–Р·СѓС” Р±С–Р±Р»С–РѕС‚РµРєСѓ GLFW.
 
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); //Оскільки GLFW спочатку був розроблений для створення контексту OpenGL, потрібно сказати йому не створювати контекст OpenGL
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); //РћСЃРєС–Р»СЊРєРё GLFW СЃРїРѕС‡Р°С‚РєСѓ Р±СѓРІ СЂРѕР·СЂРѕР±Р»РµРЅРёР№ РґР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ РєРѕРЅС‚РµРєСЃС‚Сѓ OpenGL, РїРѕС‚СЂС–Р±РЅРѕ СЃРєР°Р·Р°С‚Рё Р№РѕРјСѓ РЅРµ СЃС‚РІРѕСЂСЋРІР°С‚Рё РєРѕРЅС‚РµРєСЃС‚ OpenGL
 
-        window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr); //створити вікно
-        glfwSetWindowUserPointer(window, this); //зберігати довільний покажчик
-        glfwSetFramebufferSizeCallback(window, framebufferResizeCallback); //виявити зміни розмірів у структурі GLFW, щоб налаштувати зворотний виклик
+        window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr); //СЃС‚РІРѕСЂРёС‚Рё РІС–РєРЅРѕ
+        glfwSetWindowUserPointer(window, this); //Р·Р±РµСЂС–РіР°С‚Рё РґРѕРІС–Р»СЊРЅРёР№ РїРѕРєР°Р¶С‡РёРє
+        glfwSetFramebufferSizeCallback(window, framebufferResizeCallback); //РІРёСЏРІРёС‚Рё Р·РјС–РЅРё СЂРѕР·РјС–СЂС–РІ Сѓ СЃС‚СЂСѓРєС‚СѓСЂС– GLFW, С‰РѕР± РЅР°Р»Р°С€С‚СѓРІР°С‚Рё Р·РІРѕСЂРѕС‚РЅРёР№ РІРёРєР»РёРє
     }
 
     static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
@@ -126,34 +126,34 @@ private:
         app->framebufferResized = true;
     }
 
-    //додаються функції для ініціювання кожного об’єкту Vulkan
+    //РґРѕРґР°СЋС‚СЊСЃСЏ С„СѓРЅРєС†С–С— РґР»СЏ С–РЅС–С†С–СЋРІР°РЅРЅСЏ РєРѕР¶РЅРѕРіРѕ РѕР±вЂ™С”РєС‚Сѓ Vulkan
     void initVulkan() { 
-        createInstance();           //Екземпляр — це зв’язок між програмою та бібліотекою Vulkan, тут вказуємо драйверу деякі деталі про програму.
-        setupDebugMessenger();      //функція зворотного виклику. Такий зворотний виклик є частиною процесу налагодження.
-        createSurface();            //створюємо поверхню
-        pickPhysicalDevice();       //знайти та вибрати графічну карту в системі, яка підтримує потрібні функції.
-        createLogicalDevice();      //створення логічного пристрою
-        createSwapChain();          //створення робочого ланцюжка обміну інформація.
-        createImageViews();         //створює базове подання зображення для кожного зображення в ланцюжку обміну, щоб можна було використовувати їх як цільові кольори
-        createRenderPass();         //створення render pass в якому інформація для Vulkan про вкладення кадрового буфера, які використовуватимуться під час візуалізації.
-        createGraphicsPipeline();   //створити графічний конвеєр(буде створено два програмованих етапи, необхідні для розміщення трикутника на екрані: вершинний шейдер і фрагментний шейдер.)
-        createFramebuffers();       //створити кадровий буфер для всіх зображень у ланцюжку обміну та використовувати той, який відповідає отриманому зображенню під час рисування.
-        createCommandPool();        //створити командний пул. Пули команд керують пам'яттю, яка використовується для зберігання буферів, і буфери команд виділяються з них.
-        createCommandBuffers();     //створити кілька буферів команд.
-        createSyncObjects();        //створити semaphore,щоб сигналізувати, що зображення отримано з ланцюжка обміну та готове до рендерингу, ще один, щоб сигналізувати, що рендеринг завершено та презентація може відбутися, а також fence, щоб переконатися, що рендеринг виконується лише по одному кадру.
+        createInstance();           //Р•РєР·РµРјРїР»СЏСЂ вЂ” С†Рµ Р·РІвЂ™СЏР·РѕРє РјС–Р¶ РїСЂРѕРіСЂР°РјРѕСЋ С‚Р° Р±С–Р±Р»С–РѕС‚РµРєРѕСЋ Vulkan, С‚СѓС‚ РІРєР°Р·СѓС”РјРѕ РґСЂР°Р№РІРµСЂСѓ РґРµСЏРєС– РґРµС‚Р°Р»С– РїСЂРѕ РїСЂРѕРіСЂР°РјСѓ.
+        setupDebugMessenger();      //С„СѓРЅРєС†С–СЏ Р·РІРѕСЂРѕС‚РЅРѕРіРѕ РІРёРєР»РёРєСѓ. РўР°РєРёР№ Р·РІРѕСЂРѕС‚РЅРёР№ РІРёРєР»РёРє С” С‡Р°СЃС‚РёРЅРѕСЋ РїСЂРѕС†РµСЃСѓ РЅР°Р»Р°РіРѕРґР¶РµРЅРЅСЏ.
+        createSurface();            //СЃС‚РІРѕСЂСЋС”РјРѕ РїРѕРІРµСЂС…РЅСЋ
+        pickPhysicalDevice();       //Р·РЅР°Р№С‚Рё С‚Р° РІРёР±СЂР°С‚Рё РіСЂР°С„С–С‡РЅСѓ РєР°СЂС‚Сѓ РІ СЃРёСЃС‚РµРјС–, СЏРєР° РїС–РґС‚СЂРёРјСѓС” РїРѕС‚СЂС–Р±РЅС– С„СѓРЅРєС†С–С—.
+        createLogicalDevice();      //СЃС‚РІРѕСЂРµРЅРЅСЏ Р»РѕРіС–С‡РЅРѕРіРѕ РїСЂРёСЃС‚СЂРѕСЋ
+        createSwapChain();          //СЃС‚РІРѕСЂРµРЅРЅСЏ СЂРѕР±РѕС‡РѕРіРѕ Р»Р°РЅС†СЋР¶РєР° РѕР±РјС–РЅСѓ С–РЅС„РѕСЂРјР°С†С–СЏ.
+        createImageViews();         //СЃС‚РІРѕСЂСЋС” Р±Р°Р·РѕРІРµ РїРѕРґР°РЅРЅСЏ Р·РѕР±СЂР°Р¶РµРЅРЅСЏ РґР»СЏ РєРѕР¶РЅРѕРіРѕ Р·РѕР±СЂР°Р¶РµРЅРЅСЏ РІ Р»Р°РЅС†СЋР¶РєСѓ РѕР±РјС–РЅСѓ, С‰РѕР± РјРѕР¶РЅР° Р±СѓР»Рѕ РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё С—С… СЏРє С†С–Р»СЊРѕРІС– РєРѕР»СЊРѕСЂРё
+        createRenderPass();         //СЃС‚РІРѕСЂРµРЅРЅСЏ render pass РІ СЏРєРѕРјСѓ С–РЅС„РѕСЂРјР°С†С–СЏ РґР»СЏ Vulkan РїСЂРѕ РІРєР»Р°РґРµРЅРЅСЏ РєР°РґСЂРѕРІРѕРіРѕ Р±СѓС„РµСЂР°, СЏРєС– РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚РёРјСѓС‚СЊСЃСЏ РїС–Рґ С‡Р°СЃ РІС–Р·СѓР°Р»С–Р·Р°С†С–С—.
+        createGraphicsPipeline();   //СЃС‚РІРѕСЂРёС‚Рё РіСЂР°С„С–С‡РЅРёР№ РєРѕРЅРІРµС”СЂ(Р±СѓРґРµ СЃС‚РІРѕСЂРµРЅРѕ РґРІР° РїСЂРѕРіСЂР°РјРѕРІР°РЅРёС… РµС‚Р°РїРё, РЅРµРѕР±С…С–РґРЅС– РґР»СЏ СЂРѕР·РјС–С‰РµРЅРЅСЏ С‚СЂРёРєСѓС‚РЅРёРєР° РЅР° РµРєСЂР°РЅС–: РІРµСЂС€РёРЅРЅРёР№ С€РµР№РґРµСЂ С– С„СЂР°РіРјРµРЅС‚РЅРёР№ С€РµР№РґРµСЂ.)
+        createFramebuffers();       //СЃС‚РІРѕСЂРёС‚Рё РєР°РґСЂРѕРІРёР№ Р±СѓС„РµСЂ РґР»СЏ РІСЃС–С… Р·РѕР±СЂР°Р¶РµРЅСЊ Сѓ Р»Р°РЅС†СЋР¶РєСѓ РѕР±РјС–РЅСѓ С‚Р° РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё С‚РѕР№, СЏРєРёР№ РІС–РґРїРѕРІС–РґР°С” РѕС‚СЂРёРјР°РЅРѕРјСѓ Р·РѕР±СЂР°Р¶РµРЅРЅСЋ РїС–Рґ С‡Р°СЃ СЂРёСЃСѓРІР°РЅРЅСЏ.
+        createCommandPool();        //СЃС‚РІРѕСЂРёС‚Рё РєРѕРјР°РЅРґРЅРёР№ РїСѓР». РџСѓР»Рё РєРѕРјР°РЅРґ РєРµСЂСѓСЋС‚СЊ РїР°Рј'СЏС‚С‚СЋ, СЏРєР° РІРёРєРѕСЂРёСЃС‚РѕРІСѓС”С‚СЊСЃСЏ РґР»СЏ Р·Р±РµСЂС–РіР°РЅРЅСЏ Р±СѓС„РµСЂС–РІ, С– Р±СѓС„РµСЂРё РєРѕРјР°РЅРґ РІРёРґС–Р»СЏСЋС‚СЊСЃСЏ Р· РЅРёС….
+        createCommandBuffers();     //СЃС‚РІРѕСЂРёС‚Рё РєС–Р»СЊРєР° Р±СѓС„РµСЂС–РІ РєРѕРјР°РЅРґ.
+        createSyncObjects();        //СЃС‚РІРѕСЂРёС‚Рё semaphore,С‰РѕР± СЃРёРіРЅР°Р»С–Р·СѓРІР°С‚Рё, С‰Рѕ Р·РѕР±СЂР°Р¶РµРЅРЅСЏ РѕС‚СЂРёРјР°РЅРѕ Р· Р»Р°РЅС†СЋР¶РєР° РѕР±РјС–РЅСѓ С‚Р° РіРѕС‚РѕРІРµ РґРѕ СЂРµРЅРґРµСЂРёРЅРіСѓ, С‰Рµ РѕРґРёРЅ, С‰РѕР± СЃРёРіРЅР°Р»С–Р·СѓРІР°С‚Рё, С‰Рѕ СЂРµРЅРґРµСЂРёРЅРі Р·Р°РІРµСЂС€РµРЅРѕ С‚Р° РїСЂРµР·РµРЅС‚Р°С†С–СЏ РјРѕР¶Рµ РІС–РґР±СѓС‚РёСЃСЏ, Р° С‚Р°РєРѕР¶ fence, С‰РѕР± РїРµСЂРµРєРѕРЅР°С‚РёСЃСЏ, С‰Рѕ СЂРµРЅРґРµСЂРёРЅРі РІРёРєРѕРЅСѓС”С‚СЊСЃСЏ Р»РёС€Рµ РїРѕ РѕРґРЅРѕРјСѓ РєР°РґСЂСѓ.
     }
 
-    // цикл,який повторюється до тих пір, поки вікно не буде закрито.
+    // С†РёРєР»,СЏРєРёР№ РїРѕРІС‚РѕСЂСЋС”С‚СЊСЃСЏ РґРѕ С‚РёС… РїС–СЂ, РїРѕРєРё РІС–РєРЅРѕ РЅРµ Р±СѓРґРµ Р·Р°РєСЂРёС‚Рѕ.
     void mainLoop() {
         while (!glfwWindowShouldClose(window)) {
-            glfwPollEvents(); //перевіряє події, наприклад натискання кнопки X, доки користувач не закриває вікно.
-            drawFrame(); //функцію для відтворення одного кадру.
+            glfwPollEvents(); //РїРµСЂРµРІС–СЂСЏС” РїРѕРґС–С—, РЅР°РїСЂРёРєР»Р°Рґ РЅР°С‚РёСЃРєР°РЅРЅСЏ РєРЅРѕРїРєРё X, РґРѕРєРё РєРѕСЂРёСЃС‚СѓРІР°С‡ РЅРµ Р·Р°РєСЂРёРІР°С” РІС–РєРЅРѕ.
+            drawFrame(); //С„СѓРЅРєС†С–СЋ РґР»СЏ РІС–РґС‚РІРѕСЂРµРЅРЅСЏ РѕРґРЅРѕРіРѕ РєР°РґСЂСѓ.
         }
 
-        vkDeviceWaitIdle(device); //чекає, поки пристрій перейде в режим очікування
+        vkDeviceWaitIdle(device); //С‡РµРєР°С”, РїРѕРєРё РїСЂРёСЃС‚СЂС–Р№ РїРµСЂРµР№РґРµ РІ СЂРµР¶РёРј РѕС‡С–РєСѓРІР°РЅРЅСЏ
     }
 
-    void cleanupSwapChain() { //перемістити частину коду очищення в окрему функцію, яку можна викликати з функції recreateSwapChain.
+    void cleanupSwapChain() { //РїРµСЂРµРјС–СЃС‚РёС‚Рё С‡Р°СЃС‚РёРЅСѓ РєРѕРґСѓ РѕС‡РёС‰РµРЅРЅСЏ РІ РѕРєСЂРµРјСѓ С„СѓРЅРєС†С–СЋ, СЏРєСѓ РјРѕР¶РЅР° РІРёРєР»РёРєР°С‚Рё Р· С„СѓРЅРєС†С–С— recreateSwapChain.
         for (auto framebuffer : swapChainFramebuffers) {
             vkDestroyFramebuffer(device, framebuffer, nullptr);
         }
@@ -164,7 +164,7 @@ private:
 
         vkDestroySwapchainKHR(device, swapChain, nullptr);
     }
-    //Після того, як вікно закрито, потрібно очистити ресурси, знищивши його та припинивши роботу GLFW.
+    //РџС–СЃР»СЏ С‚РѕРіРѕ, СЏРє РІС–РєРЅРѕ Р·Р°РєСЂРёС‚Рѕ, РїРѕС‚СЂС–Р±РЅРѕ РѕС‡РёСЃС‚РёС‚Рё СЂРµСЃСѓСЂСЃРё, Р·РЅРёС‰РёРІС€Рё Р№РѕРіРѕ С‚Р° РїСЂРёРїРёРЅРёРІС€Рё СЂРѕР±РѕС‚Сѓ GLFW.
     void cleanup() {
         cleanupSwapChain(); 
 
@@ -195,7 +195,7 @@ private:
         glfwTerminate();
     }
 
-    void recreateSwapChain() { //викликає createSwapChain і всі функції створення для об’єктів, які залежать від ланцюжка обміну або розміру вікна.
+    void recreateSwapChain() { //РІРёРєР»РёРєР°С” createSwapChain С– РІСЃС– С„СѓРЅРєС†С–С— СЃС‚РІРѕСЂРµРЅРЅСЏ РґР»СЏ РѕР±вЂ™С”РєС‚С–РІ, СЏРєС– Р·Р°Р»РµР¶Р°С‚СЊ РІС–Рґ Р»Р°РЅС†СЋР¶РєР° РѕР±РјС–РЅСѓ Р°Р±Рѕ СЂРѕР·РјС–СЂСѓ РІС–РєРЅР°.
         int width = 0, height = 0;
         glfwGetFramebufferSize(window, &width, &height);
         while (width == 0 || height == 0) {
@@ -212,13 +212,13 @@ private:
         createFramebuffers();
     }
 
-    //Екземпляр — це зв’язок між програмою та бібліотекою Vulkan, тут вказуємо драйверу деякі деталі про програму.
+    //Р•РєР·РµРјРїР»СЏСЂ вЂ” С†Рµ Р·РІвЂ™СЏР·РѕРє РјС–Р¶ РїСЂРѕРіСЂР°РјРѕСЋ С‚Р° Р±С–Р±Р»С–РѕС‚РµРєРѕСЋ Vulkan, С‚СѓС‚ РІРєР°Р·СѓС”РјРѕ РґСЂР°Р№РІРµСЂСѓ РґРµСЏРєС– РґРµС‚Р°Р»С– РїСЂРѕ РїСЂРѕРіСЂР°РјСѓ.
     void createInstance() {
         if (enableValidationLayers && !checkValidationLayerSupport()) {
             throw std::runtime_error("validation layers requested, but not available!");
         }
 
-        VkApplicationInfo appInfo{}; //інформація про програму.
+        VkApplicationInfo appInfo{}; //С–РЅС„РѕСЂРјР°С†С–СЏ РїСЂРѕ РїСЂРѕРіСЂР°РјСѓ.
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
         appInfo.pApplicationName = "Hello Triangle";
         appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
@@ -226,7 +226,7 @@ private:
         appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
         appInfo.apiVersion = VK_API_VERSION_1_0;
 
-        VkInstanceCreateInfo createInfo{};  //повідомляє драйверу Vulkan, які глобальні розширення та рівні перевірки які планується використовувати.
+        VkInstanceCreateInfo createInfo{};  //РїРѕРІС–РґРѕРјР»СЏС” РґСЂР°Р№РІРµСЂСѓ Vulkan, СЏРєС– РіР»РѕР±Р°Р»СЊРЅС– СЂРѕР·С€РёСЂРµРЅРЅСЏ С‚Р° СЂС–РІРЅС– РїРµСЂРµРІС–СЂРєРё СЏРєС– РїР»Р°РЅСѓС”С‚СЊСЃСЏ РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё.
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         createInfo.pApplicationInfo = &appInfo;
 
@@ -234,7 +234,7 @@ private:
         createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         createInfo.ppEnabledExtensionNames = extensions.data();
 
-        VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};   //структура деталей про месенджер і його зворотний виклик
+        VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};   //СЃС‚СЂСѓРєС‚СѓСЂР° РґРµС‚Р°Р»РµР№ РїСЂРѕ РјРµСЃРµРЅРґР¶РµСЂ С– Р№РѕРіРѕ Р·РІРѕСЂРѕС‚РЅРёР№ РІРёРєР»РёРє
         if (enableValidationLayers) {
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
             createInfo.ppEnabledLayerNames = validationLayers.data();
@@ -261,7 +261,7 @@ private:
         createInfo.pfnUserCallback = debugCallback;
     }
 
-    void setupDebugMessenger() { //функція зворотного виклику. Такий зворотний виклик є частиною процесу налагодження.
+    void setupDebugMessenger() { //С„СѓРЅРєС†С–СЏ Р·РІРѕСЂРѕС‚РЅРѕРіРѕ РІРёРєР»РёРєСѓ. РўР°РєРёР№ Р·РІРѕСЂРѕС‚РЅРёР№ РІРёРєР»РёРє С” С‡Р°СЃС‚РёРЅРѕСЋ РїСЂРѕС†РµСЃСѓ РЅР°Р»Р°РіРѕРґР¶РµРЅРЅСЏ.
         if (!enableValidationLayers) return;
 
         VkDebugUtilsMessengerCreateInfoEXT createInfo;
@@ -272,13 +272,13 @@ private:
         }
     }
 
-    void createSurface() { //створюємо поверхню
+    void createSurface() { //СЃС‚РІРѕСЂСЋС”РјРѕ РїРѕРІРµСЂС…РЅСЋ
         if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS) {
             throw std::runtime_error("failed to create window surface!");
         }
     }
 
-    void pickPhysicalDevice() { //знайти та вибрати графічну карту в системі, яка підтримує потрібні функції.
+    void pickPhysicalDevice() { //Р·РЅР°Р№С‚Рё С‚Р° РІРёР±СЂР°С‚Рё РіСЂР°С„С–С‡РЅСѓ РєР°СЂС‚Сѓ РІ СЃРёСЃС‚РµРјС–, СЏРєР° РїС–РґС‚СЂРёРјСѓС” РїРѕС‚СЂС–Р±РЅС– С„СѓРЅРєС†С–С—.
         uint32_t deviceCount = 0;
         vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 
@@ -301,7 +301,7 @@ private:
         }
     }
 
-    void createLogicalDevice() { //створення логічного пристрою
+    void createLogicalDevice() { //СЃС‚РІРѕСЂРµРЅРЅСЏ Р»РѕРіС–С‡РЅРѕРіРѕ РїСЂРёСЃС‚СЂРѕСЋ
         QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
         std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
@@ -346,7 +346,7 @@ private:
         vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
     }
 
-    void createSwapChain() { //створення робочого ланцюжка обміну інформація.
+    void createSwapChain() { //СЃС‚РІРѕСЂРµРЅРЅСЏ СЂРѕР±РѕС‡РѕРіРѕ Р»Р°РЅС†СЋР¶РєР° РѕР±РјС–РЅСѓ С–РЅС„РѕСЂРјР°С†С–СЏ.
         SwapChainSupportDetails swapChainSupport = querySwapChainSupport(physicalDevice);
 
         VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
@@ -398,7 +398,7 @@ private:
         swapChainExtent = extent;
     }
 
-    void createImageViews() { //створює базове подання зображення для кожного зображення в ланцюжку обміну, щоб можна було використовувати їх як цільові кольори
+    void createImageViews() { //СЃС‚РІРѕСЂСЋС” Р±Р°Р·РѕРІРµ РїРѕРґР°РЅРЅСЏ Р·РѕР±СЂР°Р¶РµРЅРЅСЏ РґР»СЏ РєРѕР¶РЅРѕРіРѕ Р·РѕР±СЂР°Р¶РµРЅРЅСЏ РІ Р»Р°РЅС†СЋР¶РєСѓ РѕР±РјС–РЅСѓ, С‰РѕР± РјРѕР¶РЅР° Р±СѓР»Рѕ РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё С—С… СЏРє С†С–Р»СЊРѕРІС– РєРѕР»СЊРѕСЂРё
         swapChainImageViews.resize(swapChainImages.size());
 
         for (size_t i = 0; i < swapChainImages.size(); i++) {
@@ -423,7 +423,7 @@ private:
         }
     }
 
-    void createRenderPass() { //створення render pass в якому інформація для Vulkan про вкладення кадрового буфера, які використовуватимуться під час візуалізації.
+    void createRenderPass() { //СЃС‚РІРѕСЂРµРЅРЅСЏ render pass РІ СЏРєРѕРјСѓ С–РЅС„РѕСЂРјР°С†С–СЏ РґР»СЏ Vulkan РїСЂРѕ РІРєР»Р°РґРµРЅРЅСЏ РєР°РґСЂРѕРІРѕРіРѕ Р±СѓС„РµСЂР°, СЏРєС– РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚РёРјСѓС‚СЊСЃСЏ РїС–Рґ С‡Р°СЃ РІС–Р·СѓР°Р»С–Р·Р°С†С–С—.
         VkAttachmentDescription colorAttachment{};
         colorAttachment.format = swapChainImageFormat;
         colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -465,7 +465,7 @@ private:
         }
     }
 
-    void createGraphicsPipeline() { //створити графічний конвеєр(буде створено два програмованих етапи, необхідні для розміщення трикутника на екрані: вершинний шейдер і фрагментний шейдер.)
+    void createGraphicsPipeline() { //СЃС‚РІРѕСЂРёС‚Рё РіСЂР°С„С–С‡РЅРёР№ РєРѕРЅРІРµС”СЂ(Р±СѓРґРµ СЃС‚РІРѕСЂРµРЅРѕ РґРІР° РїСЂРѕРіСЂР°РјРѕРІР°РЅРёС… РµС‚Р°РїРё, РЅРµРѕР±С…С–РґРЅС– РґР»СЏ СЂРѕР·РјС–С‰РµРЅРЅСЏ С‚СЂРёРєСѓС‚РЅРёРєР° РЅР° РµРєСЂР°РЅС–: РІРµСЂС€РёРЅРЅРёР№ С€РµР№РґРµСЂ С– С„СЂР°РіРјРµРЅС‚РЅРёР№ С€РµР№РґРµСЂ.)
         auto vertShaderCode = readFile("res/shaders/vert.spv");
         auto fragShaderCode = readFile("res/shaders/frag.spv");
 
@@ -573,7 +573,7 @@ private:
         vkDestroyShaderModule(device, vertShaderModule, nullptr);
     }
 
-    void createFramebuffers() { //створити кадровий буфер для всіх зображень у ланцюжку обміну та використовувати той, який відповідає отриманому зображенню під час рисування.
+    void createFramebuffers() { //СЃС‚РІРѕСЂРёС‚Рё РєР°РґСЂРѕРІРёР№ Р±СѓС„РµСЂ РґР»СЏ РІСЃС–С… Р·РѕР±СЂР°Р¶РµРЅСЊ Сѓ Р»Р°РЅС†СЋР¶РєСѓ РѕР±РјС–РЅСѓ С‚Р° РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё С‚РѕР№, СЏРєРёР№ РІС–РґРїРѕРІС–РґР°С” РѕС‚СЂРёРјР°РЅРѕРјСѓ Р·РѕР±СЂР°Р¶РµРЅРЅСЋ РїС–Рґ С‡Р°СЃ СЂРёСЃСѓРІР°РЅРЅСЏ.
         swapChainFramebuffers.resize(swapChainImageViews.size());
 
         for (size_t i = 0; i < swapChainImageViews.size(); i++) {
@@ -596,7 +596,7 @@ private:
         }
     }
 
-    void createCommandPool() { //створити командний пул. Пули команд керують пам'яттю, яка використовується для зберігання буферів, і буфери команд виділяються з них.
+    void createCommandPool() { //СЃС‚РІРѕСЂРёС‚Рё РєРѕРјР°РЅРґРЅРёР№ РїСѓР». РџСѓР»Рё РєРѕРјР°РЅРґ РєРµСЂСѓСЋС‚СЊ РїР°Рј'СЏС‚С‚СЋ, СЏРєР° РІРёРєРѕСЂРёСЃС‚РѕРІСѓС”С‚СЊСЃСЏ РґР»СЏ Р·Р±РµСЂС–РіР°РЅРЅСЏ Р±СѓС„РµСЂС–РІ, С– Р±СѓС„РµСЂРё РєРѕРјР°РЅРґ РІРёРґС–Р»СЏСЋС‚СЊСЃСЏ Р· РЅРёС….
         QueueFamilyIndices queueFamilyIndices = findQueueFamilies(physicalDevice);
 
         VkCommandPoolCreateInfo poolInfo{};
@@ -609,7 +609,7 @@ private:
         }
     }
 
-    void createCommandBuffers() { //створити кілька буферів команд.
+    void createCommandBuffers() { //СЃС‚РІРѕСЂРёС‚Рё РєС–Р»СЊРєР° Р±СѓС„РµСЂС–РІ РєРѕРјР°РЅРґ.
         commandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
 
         VkCommandBufferAllocateInfo allocInfo{};
@@ -623,7 +623,7 @@ private:
         }
     }
 
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) { // записує команди, які потрібно виконати, у буфер команд.
+    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) { // Р·Р°РїРёСЃСѓС” РєРѕРјР°РЅРґРё, СЏРєС– РїРѕС‚СЂС–Р±РЅРѕ РІРёРєРѕРЅР°С‚Рё, Сѓ Р±СѓС„РµСЂ РєРѕРјР°РЅРґ.
         VkCommandBufferBeginInfo beginInfo{};
         beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 
@@ -669,7 +669,7 @@ private:
         }
     }
 
-    void createSyncObjects() { //створити semaphore,щоб сигналізувати, що зображення отримано з ланцюжка обміну та готове до рендерингу, ще один, щоб сигналізувати, що рендеринг завершено та презентація може відбутися, а також fence, щоб переконатися, що рендеринг виконується лише по одному кадру.
+    void createSyncObjects() { //СЃС‚РІРѕСЂРёС‚Рё semaphore,С‰РѕР± СЃРёРіРЅР°Р»С–Р·СѓРІР°С‚Рё, С‰Рѕ Р·РѕР±СЂР°Р¶РµРЅРЅСЏ РѕС‚СЂРёРјР°РЅРѕ Р· Р»Р°РЅС†СЋР¶РєР° РѕР±РјС–РЅСѓ С‚Р° РіРѕС‚РѕРІРµ РґРѕ СЂРµРЅРґРµСЂРёРЅРіСѓ, С‰Рµ РѕРґРёРЅ, С‰РѕР± СЃРёРіРЅР°Р»С–Р·СѓРІР°С‚Рё, С‰Рѕ СЂРµРЅРґРµСЂРёРЅРі Р·Р°РІРµСЂС€РµРЅРѕ С‚Р° РїСЂРµР·РµРЅС‚Р°С†С–СЏ РјРѕР¶Рµ РІС–РґР±СѓС‚РёСЃСЏ, Р° С‚Р°РєРѕР¶ fence, С‰РѕР± РїРµСЂРµРєРѕРЅР°С‚РёСЃСЏ, С‰Рѕ СЂРµРЅРґРµСЂРёРЅРі РІРёРєРѕРЅСѓС”С‚СЊСЃСЏ Р»РёС€Рµ РїРѕ РѕРґРЅРѕРјСѓ РєР°РґСЂСѓ.
         imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
         renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
         inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
@@ -690,7 +690,7 @@ private:
         }
     }
 
-    void drawFrame() { //функцію для відтворення одного кадру.
+    void drawFrame() { //С„СѓРЅРєС†С–СЋ РґР»СЏ РІС–РґС‚РІРѕСЂРµРЅРЅСЏ РѕРґРЅРѕРіРѕ РєР°РґСЂСѓ.
         vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
 
         uint32_t imageIndex;
@@ -754,7 +754,7 @@ private:
         currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
     }
 
-    VkShaderModule createShaderModule(const std::vector<char>& code) { // Створити шейдерний модуль , функція візьме буфер із байт-кодом як параметр і створить із нього VkShaderModule.
+    VkShaderModule createShaderModule(const std::vector<char>& code) { // РЎС‚РІРѕСЂРёС‚Рё С€РµР№РґРµСЂРЅРёР№ РјРѕРґСѓР»СЊ , С„СѓРЅРєС†С–СЏ РІС–Р·СЊРјРµ Р±СѓС„РµСЂ С–Р· Р±Р°Р№С‚-РєРѕРґРѕРј СЏРє РїР°СЂР°РјРµС‚СЂ С– СЃС‚РІРѕСЂРёС‚СЊ С–Р· РЅСЊРѕРіРѕ VkShaderModule.
         VkShaderModuleCreateInfo createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
         createInfo.codeSize = code.size();
@@ -768,7 +768,7 @@ private:
         return shaderModule;
     }
 
-    VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) { // містить формат і член colorSpace. Член формату визначає канали кольорів і типи.
+    VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) { // РјС–СЃС‚РёС‚СЊ С„РѕСЂРјР°С‚ С– С‡Р»РµРЅ colorSpace. Р§Р»РµРЅ С„РѕСЂРјР°С‚Сѓ РІРёР·РЅР°С‡Р°С” РєР°РЅР°Р»Рё РєРѕР»СЊРѕСЂС–РІ С– С‚РёРїРё.
         for (const auto& availableFormat : availableFormats) {
             if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
                 return availableFormat;
@@ -778,7 +778,7 @@ private:
         return availableFormats[0];
     }
 
-    VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) { // шукатиме найкращий доступний режим
+    VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) { // С€СѓРєР°С‚РёРјРµ РЅР°Р№РєСЂР°С‰РёР№ РґРѕСЃС‚СѓРїРЅРёР№ СЂРµР¶РёРј
         for (const auto& availablePresentMode : availablePresentModes) {
             if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
                 return availablePresentMode;
@@ -788,7 +788,7 @@ private:
         return VK_PRESENT_MODE_FIFO_KHR;
     }
 
-    VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities) { //Заміна екстента. Залишає лише одну основну властивість
+    VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities) { //Р—Р°РјС–РЅР° РµРєСЃС‚РµРЅС‚Р°. Р—Р°Р»РёС€Р°С” Р»РёС€Рµ РѕРґРЅСѓ РѕСЃРЅРѕРІРЅСѓ РІР»Р°СЃС‚РёРІС–СЃС‚СЊ
         if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
             return capabilities.currentExtent;
         }
@@ -808,7 +808,7 @@ private:
         }
     }
 
-    SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device) { // заповнить структуру SwapChainSupportDetails
+    SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device) { // Р·Р°РїРѕРІРЅРёС‚СЊ СЃС‚СЂСѓРєС‚СѓСЂСѓ SwapChainSupportDetails
         SwapChainSupportDetails details;
 
         vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
@@ -832,7 +832,7 @@ private:
         return details;
     }
 
-    bool isDeviceSuitable(VkPhysicalDevice device) { // перевіряє графічні карти чи підходять вони для операцій
+    bool isDeviceSuitable(VkPhysicalDevice device) { // РїРµСЂРµРІС–СЂСЏС” РіСЂР°С„С–С‡РЅС– РєР°СЂС‚Рё С‡Рё РїС–РґС…РѕРґСЏС‚СЊ РІРѕРЅРё РґР»СЏ РѕРїРµСЂР°С†С–Р№
         QueueFamilyIndices indices = findQueueFamilies(device);
 
         bool extensionsSupported = checkDeviceExtensionSupport(device);
@@ -846,7 +846,7 @@ private:
         return indices.isComplete() && extensionsSupported && swapChainAdequate;
     }
 
-    bool checkDeviceExtensionSupport(VkPhysicalDevice device) { // викликається з isDeviceSuitable як додаткова перевірка
+    bool checkDeviceExtensionSupport(VkPhysicalDevice device) { // РІРёРєР»РёРєР°С”С‚СЊСЃСЏ Р· isDeviceSuitable СЏРє РґРѕРґР°С‚РєРѕРІР° РїРµСЂРµРІС–СЂРєР°
         uint32_t extensionCount;
         vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
 
@@ -862,7 +862,7 @@ private:
         return requiredExtensions.empty();
     }
 
-    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) { //шукатиме всі потрібні сімейства черги (Потрібно перевірити, які сімейства черг підтримуються пристроєм і яка з них підтримує команди, які потрібно використовувати.)
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) { //С€СѓРєР°С‚РёРјРµ РІСЃС– РїРѕС‚СЂС–Р±РЅС– СЃС–РјРµР№СЃС‚РІР° С‡РµСЂРіРё (РџРѕС‚СЂС–Р±РЅРѕ РїРµСЂРµРІС–СЂРёС‚Рё, СЏРєС– СЃС–РјРµР№СЃС‚РІР° С‡РµСЂРі РїС–РґС‚СЂРёРјСѓСЋС‚СЊСЃСЏ РїСЂРёСЃС‚СЂРѕС”Рј С– СЏРєР° Р· РЅРёС… РїС–РґС‚СЂРёРјСѓС” РєРѕРјР°РЅРґРё, СЏРєС– РїРѕС‚СЂС–Р±РЅРѕ РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё.)
         QueueFamilyIndices indices;
 
         uint32_t queueFamilyCount = 0;
@@ -894,7 +894,7 @@ private:
         return indices;
     }
 
-    std::vector<const char*> getRequiredExtensions() { //повертатиме необхідний список розширень залежно від того, увімкнено верифікаційні рівні чи ні :
+    std::vector<const char*> getRequiredExtensions() { //РїРѕРІРµСЂС‚Р°С‚РёРјРµ РЅРµРѕР±С…С–РґРЅРёР№ СЃРїРёСЃРѕРє СЂРѕР·С€РёСЂРµРЅСЊ Р·Р°Р»РµР¶РЅРѕ РІС–Рґ С‚РѕРіРѕ, СѓРІС–РјРєРЅРµРЅРѕ РІРµСЂРёС„С–РєР°С†С–Р№РЅС– СЂС–РІРЅС– С‡Рё РЅС– :
         uint32_t glfwExtensionCount = 0;
         const char** glfwExtensions;
         glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
@@ -908,7 +908,7 @@ private:
         return extensions;
     }
 
-    bool checkValidationLayerSupport() { //перевіряє, чи доступні всі запитані шари.
+    bool checkValidationLayerSupport() { //РїРµСЂРµРІС–СЂСЏС”, С‡Рё РґРѕСЃС‚СѓРїРЅС– РІСЃС– Р·Р°РїРёС‚Р°РЅС– С€Р°СЂРё.
         uint32_t layerCount;
         vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
@@ -933,7 +933,7 @@ private:
         return true;
     }
 
-    static std::vector<char> readFile(const std::string& filename) { //допоміжну функцію для завантаження двійкових даних із файлів.
+    static std::vector<char> readFile(const std::string& filename) { //РґРѕРїРѕРјС–Р¶РЅСѓ С„СѓРЅРєС†С–СЋ РґР»СЏ Р·Р°РІР°РЅС‚Р°Р¶РµРЅРЅСЏ РґРІС–Р№РєРѕРІРёС… РґР°РЅРёС… С–Р· С„Р°Р№Р»С–РІ.
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
         if (!file.is_open()) {
@@ -951,7 +951,7 @@ private:
         return buffer;
     }
 
-    //дозволяє гарантувати, що функція має правильний підпис для її виклику.
+    //РґРѕР·РІРѕР»СЏС” РіР°СЂР°РЅС‚СѓРІР°С‚Рё, С‰Рѕ С„СѓРЅРєС†С–СЏ РјР°С” РїСЂР°РІРёР»СЊРЅРёР№ РїС–РґРїРёСЃ РґР»СЏ С—С— РІРёРєР»РёРєСѓ.
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
         std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
