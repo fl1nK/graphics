@@ -1,4 +1,4 @@
-﻿#define GLFW_INCLUDE_VULKAN
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
@@ -88,9 +88,9 @@ struct Vertex {
         attributeDescriptions[0].location = 0;      //посилається на директиву location вхідних даних у вершинному шейдері
         attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT; //описує тип даних для атрибута.
         attributeDescriptions[0].offset = offsetof(Vertex, pos);    //Параметр формату неявно визначає розмір даних атрибутів у байтах, а параметр зміщення визначає кількість байтів від початку даних для кожної вершини, 
-                                                                    //з яких потрібно зчитувати.Прив’язка завантажує одну вершину за раз, а атрибут позиції (pos) знаходиться на зміщенні 0 байтів від початку цієї структури.
-                                                                    //Це автоматично обчислюється за допомогою макросу offsetof.
-        //опис атрибуту кольору
+        //з яких потрібно зчитувати.Прив’язка завантажує одну вершину за раз, а атрибут позиції (pos) знаходиться на зміщенні 0 байтів від початку цієї структури.
+        //Це автоматично обчислюється за допомогою макросу offsetof.
+//опис атрибуту кольору
         attributeDescriptions[1].binding = 0;
         attributeDescriptions[1].location = 1;
         attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
@@ -187,9 +187,9 @@ private:
         createGraphicsPipeline();
         createFramebuffers();
         createCommandPool();
-        createVertexBuffer();       //Буфер для зберігання даних вершин
-        createIndexBuffer();
-        createCommandBuffers(); 
+        createVertexBuffer();       //рядок 675
+        createIndexBuffer();        //рядок 689
+        createCommandBuffers();     
         createSyncObjects();
     }
 
@@ -550,7 +550,7 @@ private:
         vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
         vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
         vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
-        
+
         //----------------------------------------------------------------------------------------------
 
         VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
@@ -694,7 +694,7 @@ private:
         vkFreeMemory(device, stagingBufferMemory, nullptr);
     }
 
-    //створюємо індексний буфер
+    //створюємо індексний буфер (схожий на буфер вершин)
     void createIndexBuffer() {
         VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
 
@@ -741,7 +741,7 @@ private:
 
         vkBindBufferMemory(device, buffer, bufferMemory, 0); // Якщо розподіл пам’яті пройшов успішно, ми можемо тепер пов’язати цю пам’ять із буфером
     }
-   
+
     //використаємо команду копіювання буфера, щоб перемістити дані з проміжного буфера до фактичного буфера вершин.
     void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
         //виділяємо тимчасовий буфер команд
@@ -767,7 +767,7 @@ private:
         vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion); //передається dміст буферів 
 
         vkEndCommandBuffer(commandBuffer);//зупинити запис
-        
+
         //виконуємо командний буфер, щоб завершити передачу:
         VkSubmitInfo submitInfo{};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -845,7 +845,7 @@ private:
         scissor.offset = { 0, 0 };
         scissor.extent = swapChainExtent;
         vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
-        
+
         //два параметри вказують масив вершинних буферів для зв’язування та зміщення байтів, з яких починається читання даних вершин.
         VkBuffer vertexBuffers[] = { vertexBuffer };
         VkDeviceSize offsets[] = { 0 };
